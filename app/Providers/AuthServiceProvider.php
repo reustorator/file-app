@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+//use App\Models\Post;
+use App\Models\User;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -13,7 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        // 'App\Models\Model' => 'App\Polici  es\ModelPolicy',
     ];
 
     /**
@@ -25,6 +28,28 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('view-admin-panel', function(?User $user){
+            if($user){
+                if($user->role == 'админ') {
+                    return Response::allow();
+                }
+                return Response::deny('Вы не обладаете правами администратора');
+            }
+            return Response::deny('Вы не аутентифицированны');
+        });
+
+//        Gate::define('update-user-post', function(User $user, Post $post){
+//            if($user->id == $post->user_id || $user->role == 'админ'){
+//                return Response::allow();
+//            }
+//            return Response::deny('Вы не можете редактировать чужой пост');
+//        });
+//
+//        Gate::define('delete-user-post', function(User $user, Post $post){
+//            if($user->id == $post->user_id || $user->role == 'админ'){
+//                return Response::allow();
+//            }
+//            return Response::deny('Вы не можете удалить чужой пост');
+//        });
     }
 }
