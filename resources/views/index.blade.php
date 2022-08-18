@@ -1,4 +1,4 @@
-@extends('file-hosting.resources.views.layouts.app')
+@extends('file-app.resources.views.layouts.app')
 
 @section('title','Главная')
 
