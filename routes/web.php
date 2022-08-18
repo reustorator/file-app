@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\FileController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\FileController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +41,8 @@ Route::name('profile.')->group(function () {
 // работа с файлами
 Route::name('file.')->group(function (){
     Route::post('/upload_file', [FileController::class, 'upload'])->name('upload');
+    Route::post('/download_file/{id}', [FileController::class, 'download'])->name('download');
+    Route::delete('/delete_file/{id}', [FileController::class, 'delete'])->name('delete');
 });
 
 
@@ -54,3 +58,4 @@ Route::name('admin.')->group(function () {
     Route::patch('/update_user/{id}', [AdminController::class, 'update'])->name('update');
     Route::delete('/delete_user/{id}', [AdminController::class, 'delete'])->name('delete');
 });
+
